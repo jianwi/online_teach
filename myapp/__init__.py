@@ -25,7 +25,12 @@ def create_app():
     from myapp.front.auth import front_auth
     app.register_blueprint(front_auth, url_prefix="/front_auth/")
 
+    # 前台 Blueprint
     from myapp.front.view import front
     app.register_blueprint(front, url_prefix="/front")
+
+    # 后台验证
+    from myapp.admin.auth import admin_auth
+    app.register_blueprint(admin_auth, url_prefix="/admin_auth/")
 
     return app

@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
-from myapp.models import User, db
+from myapp.models import Admin, db
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from config import Config
+from myapp.tools import Tools
 
-front_auth = Blueprint("front_auth", __name__)
+admin_auth = Blueprint("admin_auth", __name__)
 
 
 # 登录验证
@@ -30,21 +31,21 @@ def login_required(f):
 
 
 # 用户注册
-@front_auth.route("/register", methods=['post'])
+@admin_auth.route("/register", methods=['post'])
 def register():
     if not request.form.get("account"):
         return jsonify({"message": "account not specified"}), 409
     if not request.form.get("password"):
         return jsonify({"message": "Password not specified"}), 409
 
-    if User.query.filter_by(account=request.form.get("account")).first():
+    if Admin.query.filter_by(account=request.form.get("account")).first():
         return jsonify({"message": "account not available"}), 409
 
         # Hash password with sha256
     hashed_password = generate_password_hash(request.form.get("password"))
 
     try:
-        user = User(
+        user = Admin(
             account=request.form.get("account"),
             password=hashed_password)
         db.session.add(user)
@@ -55,7 +56,7 @@ def register():
 
 
 # 登录
-@front_auth.route('/login', methods=['POST'])
+@admin_auth.route('/login', methods=['POST'])
 def login():
     if not request.form.get("account"):
         return jsonify({"message": "account not specified"}), 409
@@ -64,27 +65,27 @@ def login():
 
     try:
         account = request.form.get("account")
-        user = User.query.filter_by(account=request.form.get("account")).first()
+        admin = Admin.query.filter_by(account=request.form.get("account")).first()
     except:
         return jsonify("database error"),501
 
-    if user == None:
-        return jsonify({"message": "User not found"}), 403
+    if admin == None:
+        return jsonify({"message": "admin not found"}), 403
 
-    if not check_password_hash(user.password, request.form.get("password")):
+    if not check_password_hash(admin.password, request.form.get("password")):
         return jsonify({"message": "Invalid password"}), 401
 
     token = jwt.encode({
-        "userid": str(user.id),
-        "account": user.account,
-        "password": user.password,
-        "created": str(user.created_at)
+        "userid": str(admin.id),
+        "account": admin.account,
+        "password": admin.password,
+        "created": str(admin.created_at)
     }, Config.SECRET_KEY)
 
     return jsonify({
         "message": '登录成功',
         "data": {
-            "user": user.to_json(),
+            "user": admin.to_json(),
             "token": token.decode("UTF-8"),
         },
     })

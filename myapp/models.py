@@ -45,6 +45,15 @@ class Admin(db.Model):
     created_at = db.Column(db.DateTime,default=datetime.now())
     courses = db.relationship('Course')
 
+    def to_json(self):
+        return {
+            "account": self.account,
+            "name": self.name,
+            "avatar": self.avatar,
+            "phone_number": self.phone_number,
+            "created_at": self.created_at
+        }
+
 
 class Course(db.Model):
     __tablename__ = "courses"
