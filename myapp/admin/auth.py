@@ -4,7 +4,6 @@ import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from config import Config
-from myapp.tools import Tools
 
 admin_auth = Blueprint("admin_auth", __name__)
 
@@ -58,21 +57,22 @@ def register():
 # 登录
 @admin_auth.route('/login', methods=['POST'])
 def login():
-    if not request.form.get("account"):
+
+    if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
-    if not request.form.get("password"):
+    if not request.get_json()['password']:
         return jsonify({"message": "Password not specified"}), 409
 
     try:
-        account = request.form.get("account")
-        admin = Admin.query.filter_by(account=request.form.get("account")).first()
+        account = request.get_json()['account']
+        admin = Admin.query.filter_by(account=account).first()
     except:
         return jsonify("database error"),501
 
     if admin == None:
-        return jsonify({"message": "admin not found"}), 403
+        return jsonify({"message": "user not found"}), 403
 
-    if not check_password_hash(admin.password, request.form.get("password")):
+    if not check_password_hash(admin.password, request.get_json()['password']):
         return jsonify({"message": "Invalid password"}), 401
 
     token = jwt.encode({
