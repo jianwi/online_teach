@@ -32,20 +32,20 @@ def login_required(f):
 # 用户注册
 @admin_auth.route("/register", methods=['post'])
 def register():
-    if not request.form.get("account"):
+    if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
-    if not request.form.get("password"):
+    if not request.get_json()['password']:
         return jsonify({"message": "Password not specified"}), 409
 
-    if Admin.query.filter_by(account=request.form.get("account")).first():
+    if Admin.query.filter_by(account=request.get_json()['account']).first():
         return jsonify({"message": "account not available"}), 409
 
         # Hash password with sha256
-    hashed_password = generate_password_hash(request.form.get("password"))
+    hashed_password = generate_password_hash(request.get_json()['password'])
 
     try:
         user = Admin(
-            account=request.form.get("account"),
+            account=request.get_json()['account'],
             password=hashed_password)
         db.session.add(user)
         db.session.commit()

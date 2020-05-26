@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="login" type="primary">登录</el-button>
-        <el-button @click="reset">重置</el-button>
+        <el-button @click="register" type="primary" >注册账户</el-button>
       </el-form-item>
     </el-form>
   </el-row>
@@ -26,6 +26,9 @@ export default {
     }
   },
   methods: {
+    register(){
+      this.$router.push("/register")
+    },
     login() {
       if (!this.form.account) {
         this.$message.error('用户名不能为空')
@@ -48,6 +51,8 @@ export default {
         } else {
           this.$message.error('请输入正确的账号和密码')
         }
+      }).catch(error => {
+        this.$message.error('注册失败，请稍后再试')
       })
     },
     reset() {
