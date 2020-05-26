@@ -20,6 +20,17 @@ class User(db.Model):
     created_at = db.Column(db.DateTime,default=datetime.now())
     courses = db.relationship("Course", secondary=user_course_table)
 
+    def to_json(self):
+        return {
+            "account": self.account,
+            "name" : self.name,
+            "avatar": self.avatar,
+            "sex": self.sex,
+            "age": self.age,
+            "describe": self.describe,
+            "created_at": self.created_at
+        }
+
 
 class Admin(db.Model):
     __tablename__ = "admins"

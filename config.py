@@ -7,6 +7,8 @@ class Config:
     TESTING = False
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://online_teach:online_teach@localhost/online_teach'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = 'NIUBIPLUS'
+
 
     # DATABASE_URI = 'mysql+pymysql://online_teach:online_teach@localhost/online_teach'
 

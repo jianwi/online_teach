@@ -21,6 +21,10 @@ def create_app():
         return 'Hello World!'
 
     # 蓝图注册
+    # 前台用户登录
+    from myapp.front.auth import front_auth
+    app.register_blueprint(front_auth, url_prefix="/front_auth/")
+
     from myapp.front.view import front
     app.register_blueprint(front, url_prefix="/front")
 
