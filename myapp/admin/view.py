@@ -90,7 +90,25 @@ def course_edit(userid,id):
     course.module_id = module_id
     course.content = form_data['content']
     course.type = form_data['type']
-
     db.session.commit()
-
     return Resp.success()
+
+@admin.route("/course/list")
+@login_required
+def course_list(userid):
+    list = Admin.query.get(userid).courses
+    return Resp.success(data=[
+        course.to_json() for course in list
+    ])
+
+
+@admin.route("/course/delete/<id>",methods=["POST"])
+@login_required
+def course_delete(userid,id):
+    course = Course.query.filter_by(id=id,admin_id=userid).first()
+    if not course:
+        return Resp.error(message="这个课程不是你创建的，你没有权限删除它")
+    else:
+        db.session.delete(course)
+        db.session.commit()
+        return Resp.success()

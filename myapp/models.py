@@ -76,6 +76,7 @@ class Course(db.Model):
 
     def to_json(self):
         return {
+            "id": self.id,
             "name" : self.name,
             "admin" : self.admin.to_json(),
             "content": self.content,
