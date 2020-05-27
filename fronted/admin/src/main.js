@@ -25,13 +25,14 @@ axios.interceptors.request.use((config) => {
   return config;
 })
 
+
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  // console.log('from:'+from.path)
-  // console.log('to:'+to.path)
-  if (to.path != '/login' && to.path != '/register') {
+  console.log('from:'+from.path)
+  console.log('to:'+to.path)
+  if (!/^\/auth/.test(to.path)) {
     if (!localStorage.getItem('token')) {
-      router.push('/login')
+      router.push('/auth/login')
     } else {
       next()
     }

@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Login from "../views/Login";
-import Register from "../views/Register";
+import Login from "../views/auth/Login";
+import Register from "../views/auth/Register";
+import CompleteInfo from "../views/CompleteInfo";
 
 Vue.use(VueRouter)
 
@@ -21,12 +22,18 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
     {
-      path: "/login",
+      path: "/auth/login",
+      name: "login",
       component: Login
     },
     {
-      path: "/register",
+      path: "/auth/register",
+      name: "register",
       component: Register
+    },
+    {
+      path: "/complete_info",
+      component: CompleteInfo
     }
 ]
 

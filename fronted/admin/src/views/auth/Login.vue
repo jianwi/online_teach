@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     register(){
-      this.$router.push("/register")
+      this.$router.push('/auth/register')
     },
     login() {
       if (!this.form.account) {

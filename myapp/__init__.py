@@ -33,4 +33,8 @@ def create_app():
     from myapp.admin.auth import admin_auth
     app.register_blueprint(admin_auth, url_prefix="/admin_auth/")
 
+    # 文件上传与下载
+    from myapp.api.file import file
+    app.register_blueprint(file, url_prefix="/file/")
+
     return app
