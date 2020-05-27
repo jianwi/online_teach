@@ -51,7 +51,8 @@ class Admin(db.Model):
             "name": self.name,
             "avatar": self.avatar,
             "phone_number": self.phone_number,
-            "created_at": self.created_at
+            "created_at": self.created_at,
+            "post_num": self.post_num
         }
 
 
@@ -59,18 +60,33 @@ class Course(db.Model):
     __tablename__ = "courses"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255),nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
+    admin_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
     content = db.Column(db.Text)
     videos = db.Column(db.Text)
     type = db.Column(db.Integer)
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
     cover = db.Column(db.String(255))
-    collect_num = db.Column(db.Integer)
-    view_num = db.Column(db.Integer)
-    score = db.Column(db.Integer)
+    collect_num = db.Column(db.Integer,default=0)
+    view_num = db.Column(db.Integer,default=0)
+    score = db.Column(db.Integer,default=0)
     created_at = db.Column(db.DateTime,default=datetime.now())
     module = db.relationship('Module')
+    admin = db.relationship("Admin")
     users = db.relationship("User",secondary=user_course_table)
+
+    def to_json(self):
+        return {
+            "name" : self.name,
+            "admin" : self.admin.to_json(),
+            "content": self.content,
+            "videos": self.videos,
+            "type": self.type,
+            "module": self.module.name,
+            "score": self.score,
+            "view_num": self.view_num,
+            "created_at": self.created_at,
+            "cover": self.cover
+        }
 
 
 class Module(db.Model):
@@ -78,6 +94,12 @@ class Module(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     courses = db.relationship("Course")
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
 
 
 class Scores(db.Model):
@@ -100,7 +122,6 @@ class Comment(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"))
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime,default=datetime.now())
-
 
 
 class UserSearchHistory(db.Model):

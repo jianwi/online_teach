@@ -41,4 +41,8 @@ def create_app():
     from myapp.api.file import file
     app.register_blueprint(file, url_prefix="/file/")
 
+
+    # api
+    from myapp.api.api import api
+    app.register_blueprint(api, url_prefix="/api/")
     return app
