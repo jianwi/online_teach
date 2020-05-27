@@ -41,7 +41,7 @@ class Admin(db.Model):
     password = db.Column(db.String(255),nullable=False)
     phone_number = db.Column(db.String(30))
     institution = db.Column(db.String(255))
-    post_num = db.Column(db.Integer)
+    post_num = db.Column(db.Integer,default=0)
     created_at = db.Column(db.DateTime,default=datetime.now())
     courses = db.relationship('Course')
 

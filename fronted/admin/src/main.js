@@ -11,7 +11,6 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
-
 Vue.prototype.$axios = axios
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000/'
@@ -41,15 +40,6 @@ router.beforeEach((to, from, next) => {
   }
 
 })
-
-// 封装函数处理图片路径
-Vue.prototype.$fixImgUrl = function (url) {
-  if (url.indexOf("http") < 0) {
-    return axios.defaults.baseURL + url
-  } else {
-    return url
-  }
-}
 
 Vue.config.productionTip = false
 

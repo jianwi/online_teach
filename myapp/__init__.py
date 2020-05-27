@@ -33,6 +33,10 @@ def create_app():
     from myapp.admin.auth import admin_auth
     app.register_blueprint(admin_auth, url_prefix="/admin_auth/")
 
+    # 后台Blueprint
+    from myapp.admin.view import admin
+    app.register_blueprint(admin, url_prefix="/admin/")
+
     # 文件上传与下载
     from myapp.api.file import file
     app.register_blueprint(file, url_prefix="/file/")
