@@ -16,11 +16,11 @@ Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://127.0.0.1:5000/'
 
 axios.interceptors.request.use((config) => {
-  console.log(config.headers.Authorization)
+  // console.log(config.headers.Authorization)
   if (!config.headers.Authorization && localStorage.getItem('token')) {
     config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
   }
-  console.log(config.headers.Authorization)
+  // console.log(config.headers.Authorization)
   return config;
 })
 
@@ -40,8 +40,6 @@ router.beforeEach((to, from, next) => {
   }
 
 })
-
-Vue.config.productionTip = false
 
 new Vue({
   router,

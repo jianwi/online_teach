@@ -30,48 +30,48 @@ def login_required(f):
 
 
 # 用户注册
-@front_auth.route("/register", methods=['post'])
+@front_auth.route("/register", methods=['POST'])
 def register():
-    if not request.form.get("account"):
+    if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
-    if not request.form.get("password"):
+    if not request.get_json()['password']:
         return jsonify({"message": "Password not specified"}), 409
 
-    if User.query.filter_by(account=request.form.get("account")).first():
+    if User.query.filter_by(account=request.get_json()['account']).first():
         return jsonify({"message": "account not available"}), 409
 
         # Hash password with sha256
-    hashed_password = generate_password_hash(request.form.get("password"))
+    hashed_password = generate_password_hash(request.get_json()['password'])
 
     try:
         user = User(
-            account=request.form.get("account"),
+            account=request.get_json()['account'],
             password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        return jsonify({"message": "register success"})
     except:
         return jsonify({"message": "something wrong"}), 501
-    return jsonify({"message": "register success"})
 
 
 # 登录
 @front_auth.route('/login', methods=['POST'])
 def login():
-    if not request.form.get("account"):
+    if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
-    if not request.form.get("password"):
+    if not request.get_json()['password']:
         return jsonify({"message": "Password not specified"}), 409
 
     try:
-        account = request.form.get("account")
-        user = User.query.filter_by(account=request.form.get("account")).first()
+        account = request.get_json()['account']
+        user = User.query.filter_by(account=account).first()
     except:
-        return jsonify("database error"),501
+        return jsonify("database error"), 501
 
     if user == None:
-        return jsonify({"message": "User not found"}), 403
+        return jsonify({"message": "user not found"}), 403
 
-    if not check_password_hash(user.password, request.form.get("password")):
+    if not check_password_hash(user.password, request.get_json()['password']):
         return jsonify({"message": "Invalid password"}), 401
 
     token = jwt.encode({
