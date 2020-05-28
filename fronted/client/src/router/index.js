@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/auth/Login";
 import Register from "../views/auth/Register";
-
+import CourseInfo from "../views/Course/Info";
 
 Vue.use(VueRouter)
 
@@ -20,6 +20,10 @@ Vue.use(VueRouter)
     {
       path: "/auth/register",
       component: Register
+    },
+    {
+      path: '/course/info',
+      component: CourseInfo
     },
   {
     path: '/about',
