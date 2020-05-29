@@ -51,7 +51,20 @@ def register():
         db.session.commit()
     except:
         return jsonify({"message": "something wrong"}), 501
-    return jsonify({"message": "register success"})
+    token = jwt.encode({
+        "userid": str(user.id),
+        "account": user.account,
+        "password": user.password,
+        "created": str(user.created_at)
+    }, Config.SECRET_KEY)
+
+    return jsonify({
+        "message": '注册成功',
+        "data": {
+            "user": user.to_json(),
+            "token": token.decode("UTF-8"),
+        },
+    })
 
 
 # 登录

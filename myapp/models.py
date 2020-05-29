@@ -22,6 +22,7 @@ class User(db.Model):
 
     def to_json(self):
         return {
+            "id": self.id,
             "account": self.account,
             "name" : self.name,
             "avatar": self.avatar,
@@ -47,6 +48,7 @@ class Admin(db.Model):
 
     def to_json(self):
         return {
+            "id": self.id,
             "account": self.account,
             "name": self.name,
             "avatar": self.avatar,
@@ -85,6 +87,7 @@ class Course(db.Model):
             "module": self.module.name,
             "score": self.score,
             "view_num": self.view_num,
+            "collect_num": self.collect_num,
             "created_at": self.created_at,
             "cover": self.cover
         }
@@ -119,10 +122,31 @@ class Comment(db.Model):
     from_user_id = db.Column(db.Integer)
     from_user_type = db.Column(db.Integer)
     to_user_id = db.Column(db.Integer)
-    To_user_type = db.Column(db.Integer)
+    to_user_type = db.Column(db.Integer)
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"))
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime,default=datetime.now())
+    course = db.relationship("Course")
+
+    def to_json(self):
+        if self.from_user_type == 1:
+            from_user = User.query.get(self.from_user_id).to_json()
+        else:
+            from_user = Admin.query.get(self.from_user_id).to_json()
+        if self.to_user_type == 1:
+            to_user = User.query.get(self.to_user_id).to_json()
+        else:
+            to_user = Admin.query.get(self.to_user_id).to_json()
+
+        return {
+            'id': self.id,
+            "from_user": from_user,
+            "to_user": to_user,
+            "content": self.content,
+            "course": self.course.to_json(),
+            "created_at": self.created_at
+        }
+
 
 
 class UserSearchHistory(db.Model):

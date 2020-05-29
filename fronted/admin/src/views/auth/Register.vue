@@ -40,9 +40,12 @@
                     data: this.form
                 }).then(res => {
                     console.log(res)
-                    if (res.data.message == 'register success') {
+                    if (res.data.message == '注册成功') {
                         this.$message.success("注册成功！")
-                        this.$router.push('/auth/complete')
+                        localStorage.setItem('token', res.data.data.token)
+                        localStorage.setItem('user', JSON.stringify(res.data.data.user))
+                        this.$router.push('/complete_info')
+
                     } else {
                         this.$message.error('注册失败，请稍后再试')
                     }

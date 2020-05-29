@@ -19,8 +19,8 @@
             </van-col>
         </van-row>
         <!--    分类 -->
-        <div class="d-flex flex-wrap justify-content-around">
-            <van-button size="small" type="info" :key="index" v-for="(item,index) in modules">{{ item.value }}</van-button>
+        <div class="d-flex flex-wrap">
+            <van-button class="mx-1" size="small" type="info" :key="index" v-for="(item,index) in modules">{{ item.value }}</van-button>
         </div>
 
 <!--      course list-->

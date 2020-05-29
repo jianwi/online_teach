@@ -4,6 +4,11 @@ import Home from '../views/Home.vue'
 import Login from "../views/auth/Login";
 import Register from "../views/auth/Register";
 import CourseInfo from "../views/Course/Info";
+import Mine from "../views/Mine/Index";
+import MineLoved from "../views/Mine/Loved";
+import Comments from "../views/Mine/Comments";
+import MyModule from "../views/Mine/Module";
+
 
 Vue.use(VueRouter)
 
@@ -25,14 +30,22 @@ Vue.use(VueRouter)
       path: '/course/info',
       component: CourseInfo
     },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
+    {
+      path: '/mine',
+      component: Mine
+    },
+    {
+      path: '/mine/loved',
+      component: MineLoved
+    },
+    {
+      path: '/mine/comments',
+      component: Comments
+    },
+    {
+      path: '/mine/modules',
+      component: MyModule
+    }
 
 ]
 
