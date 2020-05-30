@@ -6,7 +6,6 @@
                     @search="search"
             />
             <div>
-
                     <van-button block v-for="(item,index) in history" :key="index" :title="item"
                         @click="btn_s(item)"
                     >

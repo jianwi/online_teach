@@ -145,6 +145,17 @@ def my_comments_list(userid):
     ])
 
 
+# 回复我的
+@front.route("my/reply/list")
+@login_required
+def my_replies_lists(userid):
+    user = User.query.get(userid)
+    comments = Comment.query.filter_by(to_user_id=userid, from_user_type=2).all()
+    return Resp.success(data=[
+        comment.to_json() for comment in comments
+    ])
+
+
 # 修改信息
 @front.route("my/info/modify", methods=['POST'])
 @login_required

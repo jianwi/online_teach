@@ -6,8 +6,25 @@
                 left-arrow
                 @click-left="$router.back()"
         />
+
+
+
         <div class="mt-3 pb-5 text-left">
             <reply
+
+                    :comment_id="i.id"
+                    :avatar="i.from_user.avatar"
+                    :content="i.content"
+                    :from="i.from_user.name"
+                    :key="k"
+                    :created_at="i.created_at"
+                    to_name="我"
+                    :course_name="i.course.name"
+                    v-for="(i,k) in replies"
+            ></reply>
+
+            <reply
+                    from="我"
                     :comment_id="i.id"
                     :avatar="i.from_user.avatar"
                     :content="i.content"
@@ -31,12 +48,16 @@
         components: {Reply},
         data() {
             return {
-                comments: []
+                comments: [],
+                replies: []
             }
         },
         mounted() {
             this.$axios.get('front/my/comments/list').then(res=>{
                 this.comments = res.data.data
+            })
+            this.$axios.get('front/my/reply/list').then(res=>{
+                this.replies = res.data.data
             })
         }
     }

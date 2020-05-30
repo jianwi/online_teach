@@ -38,7 +38,7 @@
         methods:{
             getDate(date)
             {
-                return moment(date).fromNow()
+                return moment(date).utcOffset(+0).format('YYYY-MM-DD HH:mm:ss');
             },
             goInfo()
             {

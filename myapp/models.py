@@ -154,7 +154,7 @@ class UserSearchHistory(db.Model):
     __tablename__ = "user_search_histories"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    content = db.Column(db.Text)
+    content = db.Column(db.Text,unique=True)
     created_at = db.Column(db.DateTime,default=datetime.now())
 
 

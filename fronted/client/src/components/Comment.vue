@@ -29,15 +29,17 @@
 </template>
 
 <script>
-    import moment from 'moment'
+    // import moment from 'moment'
+    import moment from 'moment-timezone'
     moment.locale('zh-cn')
+    moment.tz.setDefault("Asia/Shanghai");
     export default {
         name: "Comment",
         props:['avatar','name','created_at','content','comment_id'],
         methods:{
             getDate(date)
             {
-                return moment(date).fromNow()
+                return moment(date).utcOffset(+0).format('YYYY-MM-DD HH:mm:ss');
             },
         }
     }

@@ -44,6 +44,7 @@ def course_store(userid):
     form_data = request.get_json()
     module_name = form_data['module']
     module_db = Module.query.filter_by(name=module_name).first()
+    user = Admin.query.get(userid)
     if module_db:
         module_id = module_db.id
     else:
@@ -63,6 +64,7 @@ def course_store(userid):
         admin_id=userid
     )
     db.session.add(course_new)
+    user.post_num = Course.query.filter_by(admin_id=userid).count()
     db.session.commit()
     return Resp.success()
 
