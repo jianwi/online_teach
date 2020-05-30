@@ -7,8 +7,8 @@ db = SQLAlchemy()
 def create_app():
     # flask app 实例化
     app = Flask(__name__,
-                static_folder="static",
-                static_url_path="/static",
+                static_folder="../fronted",
+                static_url_path="/html",
                 )
     # 加载配置
     app.config.from_object("config.Config")
