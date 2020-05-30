@@ -4,6 +4,8 @@
                     v-model="keywords"
                     placeholder="请输入搜索关键词"
                     @search="search"
+                    show-action
+                    @cancel="$router.push('/')"
             />
             <div>
                     <van-button block v-for="(item,index) in history" :key="index" :title="item"
