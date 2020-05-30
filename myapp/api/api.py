@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify
 from myapp.models import Module, db, Course, Comment
 from myapp.api.resp import Resp
+from sqlalchemy import desc
+from sqlalchemy.sql.expression import func
+
 
 api = Blueprint("api", __name__)
 
@@ -44,8 +47,13 @@ def get_comment(id):
 # 根据模块获取课程
 @api.route("course/get/from/module/<module>")
 def get_courses_form_module(module):
-    module = Module.query.filter_by(name=module).first()
-    courses = Course.query.filter_by(module=module).all()
+    if module=="1":
+        courses = Course.query.order_by(desc('view_num')).all()
+    elif module=="2":
+        courses = Course.query.order_by(func.random()).limit(5).all()
+    else:
+        module = Module.query.filter_by(name=module).first()
+        courses = Course.query.filter_by(module=module).all()
     print(courses)
     return Resp.success(data=[course.to_json() for course in courses])
 

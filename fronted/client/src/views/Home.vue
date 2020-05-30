@@ -21,6 +21,14 @@
         </van-row>
         <!--    分类 -->
         <div class="d-flex flex-wrap">
+
+            <van-button @click="getFromModule(1)" class="mx-1" size="small" type="info"
+            >热门课程
+            </van-button>
+            <van-button @click="getFromModule(2)" class="mx-1" size="small" type="info"
+            >猜你喜欢
+            </van-button>
+
             <van-button @click="getFromModule(item.value)" class="mx-1" size="small" type="info" :key="index"
                         v-for="(item,index) in modules">{{ item.value }}
             </van-button>
@@ -52,7 +60,7 @@
                 modules: [],
                 courses: [],
                 search_v: this.$route.query['key'],
-                user_info:'',
+                user_info: '',
                 imageUrl: '',
             }
         },
@@ -71,15 +79,15 @@
 
         },
         mounted() {
-            this.$axios.get('front/user/info').then(res=>{
+            this.$axios.get('front/user/info').then(res => {
                 this.user_info = res.data.data
 
-                if (this.user_info.avatar){
-                    this.imageUrl = this.$axios.defaults.baseURL + "file/get/" +  this.user_info.avatar
+                if (this.user_info.avatar) {
+                    this.imageUrl = this.$axios.defaults.baseURL + "file/get/" + this.user_info.avatar
                 }
-                if (this.user_info.sex == 1){
+                if (this.user_info.sex == 1) {
                     this.user_info.sex = "男"
-                }else if (this.user_info.sex ==2){
+                } else if (this.user_info.sex == 2) {
                     this.user_info.sex = "女"
                 }
             })
@@ -92,7 +100,7 @@
                 this.$axios.get("front/course/filter/" + this.search_v).then(res => {
                     this.courses = res.data.data
                 })
-            }else {
+            } else {
                 this.$axios.get("api/course/all").then(res => {
                     this.courses = res.data.data
                 })
