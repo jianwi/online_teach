@@ -39,3 +39,14 @@ def get_comments(course_id):
 def get_comment(id):
     comment = Comment.query.get(id)
     return Resp.success(data=comment.content)
+
+
+# 根据模块获取课程
+@api.route("course/get/from/module/<module>")
+def get_courses_form_module(module):
+    module = Module.query.filter_by(name=module).first()
+    courses = Course.query.filter_by(module=module).all()
+    print(courses)
+    return Resp.success(data=[course.to_json() for course in courses])
+
+

@@ -20,6 +20,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime,default=datetime.now())
     courses = db.relationship("Course", secondary=user_course_table)
 
+
     def to_json(self):
         return {
             "id": self.id,

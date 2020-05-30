@@ -56,7 +56,7 @@
                 }).then(res=>{
                     if (res.data.message == "登录成功"){
                         this.$toast.success(res.data.message)
-                        localStorage.setItem('token', res.data.data.token)
+                        localStorage.setItem('token_front', res.data.data.token)
                         localStorage.setItem('user', JSON.stringify(res.data.data.user))
                         this.$router.push('/')
                     }

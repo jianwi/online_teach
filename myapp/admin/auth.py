@@ -32,6 +32,7 @@ def login_required(f):
 # 用户注册
 @admin_auth.route("/register", methods=['post'])
 def register():
+
     if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
     if not request.get_json()['password']:
@@ -70,7 +71,6 @@ def register():
 # 登录
 @admin_auth.route('/login', methods=['POST'])
 def login():
-
     if not request.get_json()['account']:
         return jsonify({"message": "account not specified"}), 409
     if not request.get_json()['password']:

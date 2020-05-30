@@ -7,7 +7,8 @@ import CourseInfo from "../views/Course/Info";
 import Mine from "../views/Mine/Index";
 import MineLoved from "../views/Mine/Loved";
 import Comments from "../views/Mine/Comments";
-import MyModule from "../views/Mine/Module";
+import Setting from "../views/Mine/Setting";
+import Search from "../views/Course/Search";
 
 
 Vue.use(VueRouter)
@@ -43,8 +44,12 @@ Vue.use(VueRouter)
       component: Comments
     },
     {
-      path: '/mine/modules',
-      component: MyModule
+      path: '/mine/settings',
+      component: Setting
+    },
+    {
+      path: '/course/search',
+      component: Search
     }
 
 ]

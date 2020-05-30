@@ -24,8 +24,8 @@ axios.defaults.baseURL = 'http://127.0.0.1:5000/'
 
 axios.interceptors.request.use((config) => {
     // console.log(config.headers.Authorization)
-    if (!config.headers.Authorization && localStorage.getItem('token')) {
-        config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+    if (!config.headers.Authorization && localStorage.getItem('token_front')) {
+        config.headers.Authorization = 'Bearer ' + localStorage.getItem('token_front')
     }
     // console.log(config.headers.Authorization)
     return config;
@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
     console.log('from:' + from.path)
     console.log('to:' + to.path)
     if (!/^\/auth/.test(to.path)) {
-        if (!localStorage.getItem('token')) {
+        if (!localStorage.getItem('token_front')) {
             router.push('/auth/login')
         } else {
             next()

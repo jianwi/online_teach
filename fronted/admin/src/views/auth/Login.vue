@@ -52,7 +52,7 @@ export default {
           this.$message.error('请输入正确的账号和密码')
         }
       }).catch(error => {
-        this.$message.error('注册失败，请稍后再试')
+        this.$message.error('登录失败，请稍后再试')
       })
     },
     reset() {

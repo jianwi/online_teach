@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from myapp.models import User, db, Scores, Course, Comment
+from myapp.models import User, db, Scores, Course, Comment, UserSearchHistory
 from myapp.front.auth import login_required
 from myapp.api.resp import Resp
 
@@ -134,12 +134,55 @@ def all_my_loved_course(userid):
     ])
 
 
-#评论列表
+# 评论列表
 @front.route("my/comments/list")
 @login_required
 def my_comments_list(userid):
     user = User.query.get(userid)
-    comments = Comment.query.filter_by(from_user_id=userid,from_user_type=1).all()
+    comments = Comment.query.filter_by(from_user_id=userid, from_user_type=1).all()
     return Resp.success(data=[
         comment.to_json() for comment in comments
     ])
+
+
+# 修改信息
+@front.route("my/info/modify", methods=['POST'])
+@login_required
+def modify_user_info(userid):
+    data = request.get_json()
+    user = User.query.get(userid)
+
+    user.name = data['name']
+    user.sex = data['sex']
+    user.age = data['age']
+    user.describe = data['describe']
+    if data['password'] != "":
+        print("修改密码了")
+        user.password = data['password']
+
+    db.session.commit()
+    return Resp.success()
+
+
+# 搜索历史
+@front.route("my/search/history")
+@login_required
+def search_history(userid):
+    histories = UserSearchHistory.query.filter_by(user_id=userid).all()
+    return Resp.success(data=[
+        history.content for history in histories
+    ])
+
+
+# 搜索课程
+@front.route("course/filter/<key>")
+@login_required
+def search_course_by_name(userid,key):
+    h = UserSearchHistory(
+        user_id=userid,
+        content=key
+    )
+    db.session.add(h)
+    db.session.commit()
+    courses = Course.query.filter(Course.name.like('%'+key+'%')).all()
+    return Resp.success(data=[course.to_json() for course in courses])
