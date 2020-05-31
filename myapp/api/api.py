@@ -12,6 +12,7 @@ api = Blueprint("api", __name__)
 def modules():
     all_module = Module.query.all()
     return Resp.success(data=[{
+        "id": module.id,
         "value": module.name
     } for module in all_module])
 

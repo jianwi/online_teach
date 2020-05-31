@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from myapp.models import User, db, Scores, Course, Comment, UserSearchHistory
+from myapp.models import User, db, Scores, Course, Comment, UserSearchHistory, Module
 from myapp.front.auth import login_required
 from myapp.api.resp import Resp
 
@@ -197,3 +197,50 @@ def search_course_by_name(userid,key):
     db.session.commit()
     courses = Course.query.filter(Course.name.like('%'+key+'%')).all()
     return Resp.success(data=[course.to_json() for course in courses])
+
+
+#已关注栏目
+@front.route("modules/have")
+@login_required
+def modules_i_have(userid):
+    user = User.query.get(userid)
+    return Resp.success(data=[{
+        "id": module.id,
+        "value": module.name
+    } for module in user.modules])
+
+
+# 未关注的
+@front.route("/modules")
+@login_required
+def modulesNoFollow(userid):
+    all_module = Module.query.all()
+    user_modules = User.query.get(userid).modules
+    diff_modules = list(set(all_module).difference(set(user_modules)))
+
+    return Resp.success(data=[{
+        "id": module.id,
+        "value": module.name
+    } for module in diff_modules])
+
+
+# 关注
+@front.route("modules/follow/<id>",methods=['POST'])
+@login_required
+def modules_follow_it(userid,id):
+    user = User.query.get(userid)
+    module = Module.query.get(id)
+    user.modules.append(module)
+    db.session.commit()
+    return Resp.success()
+
+
+#取关
+@front.route("modules/cancel/<id>",methods=['POST'])
+@login_required
+def cancel_modules(userid,id):
+    user = User.query.get(userid)
+    module = Module.query.get(id)
+    user.modules.remove(module)
+    db.session.commit()
+    return Resp.success()

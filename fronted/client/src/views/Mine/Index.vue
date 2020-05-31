@@ -27,6 +27,7 @@
         <hr>
         <van-button block type="default" class="mb-2" to="mine/loved">我的收藏</van-button>
         <van-button block type="default" class="mb-2" to="/mine/comments">评论中心</van-button>
+        <van-button block type="default" class="mb-2" to="/mine/modules">栏目管理</van-button>
         <van-button block type="default" class="mb-2" to="/mine/settings">设置</van-button>
         <van-button block type="default" class="mb-2" @click="signout">退出</van-button>
 

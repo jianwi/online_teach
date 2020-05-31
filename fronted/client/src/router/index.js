@@ -9,6 +9,7 @@ import MineLoved from "../views/Mine/Loved";
 import Comments from "../views/Mine/Comments";
 import Setting from "../views/Mine/Setting";
 import Search from "../views/Course/Search";
+import Module from "../views/Mine/Module";
 
 
 Vue.use(VueRouter)
@@ -50,6 +51,10 @@ Vue.use(VueRouter)
     {
       path: '/course/search',
       component: Search
+    },
+    {
+      path: '/mine/modules',
+      component: Module
     }
 
 ]
